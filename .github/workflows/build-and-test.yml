@@ -1,0 +1,50 @@
+name: Build and test
+
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - main
+    tags-ignore:
+      - "**"
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build and JUnit
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+      artifact-metadata: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v6
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Build and run tests
+        run: ./gradlew build
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-reports
+          path: |
+            framework/build/reports/tests/
+            sb-hello-world/build/reports/tests/
+          if-no-files-found: ignore

@@ -6,3 +6,5 @@ rootProject.name = "github-actions-helloworld"
 
 include("framework")
 include("sb-hello-world")
+include("deephaven-server")
+include("deephaven-sender")

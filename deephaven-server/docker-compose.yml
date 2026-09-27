@@ -1,0 +1,23 @@
+services:
+  deephaven:
+    image: ghcr.io/deephaven/server:42.4
+    container_name: deephaven
+    networks:
+      - deephaven
+    ports:
+      - "${DEEPHAVEN_PORT:-10000}:10000"
+    volumes:
+      - ./data:/data
+    environment:
+      # Anonymous auth so a client on the same machine can connect without a pre-shared key.
+      - START_OPTS=-Xmx2g -DAuthHandlers=io.deephaven.auth.AnonymousAuthenticationHandler
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; s=socket.create_connection(('127.0.0.1',10000),2); s.close()"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+networks:
+  deephaven:
+    name: deephaven

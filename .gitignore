@@ -1,4 +1,5 @@
 .gradle/
+deephaven-server/data/
 build/
 !gradle/wrapper/gradle-wrapper.jar
 

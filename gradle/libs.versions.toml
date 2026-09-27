@@ -6,6 +6,8 @@ protobuf = "0.9.6"
 # Kept aligned with the versions Spring Boot 4.1.1 manages.
 protobuf-protoc = "4.35.1"
 grpc = "1.83.1"
+deephaven = "42.4"
+jackson = "2.20.1"
 
 [libraries]
 spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
@@ -16,6 +18,9 @@ spring-boot-starter-webmvc-test = { module = "org.springframework.boot:spring-bo
 spring-boot-starter-grpc-server = { module = "org.springframework.boot:spring-boot-starter-grpc-server" }
 spring-boot-starter-grpc-server-test = { module = "org.springframework.boot:spring-boot-starter-grpc-server-test" }
 grpc-netty = { module = "io.grpc:grpc-netty" }
+deephaven-java-client-flight-dagger = { module = "io.deephaven:deephaven-java-client-flight-dagger", version.ref = "deephaven" }
+deephaven-qst = { module = "io.deephaven:deephaven-qst", version.ref = "deephaven" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }

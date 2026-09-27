@@ -1,0 +1,35 @@
+name: Deephaven integration
+
+on:
+  merge_group:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  integration-test:
+    name: Deephaven integration test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Start Deephaven
+        run: docker compose -f deephaven-server/docker-compose.yml up -d --wait
+
+      - name: Publish sample orders
+        run: docker compose -f deephaven-sender/docker-compose.yml up --build --abort-on-container-exit --exit-code-from sender
+
+      - name: Show container logs
+        if: failure()
+        run: |
+          docker compose -f deephaven-server/docker-compose.yml logs
+          docker compose -f deephaven-sender/docker-compose.yml logs
+
+      - name: Stop containers
+        if: always()
+        run: |
+          docker compose -f deephaven-sender/docker-compose.yml down
+          docker compose -f deephaven-server/docker-compose.yml down --volumes

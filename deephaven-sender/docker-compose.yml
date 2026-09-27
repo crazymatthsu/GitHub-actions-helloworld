@@ -1,0 +1,15 @@
+services:
+  sender:
+    build:
+      context: ..
+      dockerfile: deephaven-sender/Dockerfile
+    networks:
+      - deephaven
+    environment:
+      DEEPHAVEN_TARGET: deephaven:10000
+    restart: "no"
+
+networks:
+  deephaven:
+    name: deephaven
+    external: true
